@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 
-# Create your views here.
+import requests
+import json
+
+
+def index(request):
+    yoko = requests.get('https://pokeapi.co/api/v2/pokemon?limit=10')
+    content = yoko.text
+    return HttpResponse(content)
