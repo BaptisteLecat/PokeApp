@@ -159,19 +159,31 @@ class Move:
 
 class Sprites:
     back_default: str
+    back_shiny: str
+    front_default: str
+    front_shiny: str
 
-    def __init__(self, back_default: str) -> None:
+    def __init__(self, back_default: str, back_shiny: str, front_default: str, front_shiny: str) -> None:
         self.back_default = back_default
+        self.back_shiny = back_shiny
+        self.front_default = front_default
+        self.front_shiny = front_shiny
 
     @staticmethod
     def from_dict(obj: Any) -> 'Sprites':
         assert isinstance(obj, dict)
         back_default = from_str(obj.get("back_default"))
-        return Sprites(back_default)
+        back_shiny = from_str(obj.get("back_shiny"))
+        front_default = from_str(obj.get("front_default"))
+        front_shiny = from_str(obj.get("front_shiny"))
+        return Sprites(back_default, back_shiny, front_default, front_shiny)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["back_default"] = from_str(self.back_default)
+        result["back_shiny"] = from_str(self.back_shiny)
+        result["front_default"] = from_str(self.front_default)
+        result["front_shiny"] = from_str(self.front_shiny)
         return result
 
 
