@@ -22,4 +22,5 @@ def fetchPokemon(url=None, identifier=None) -> Pokemon:
     else:
         if(identifier != None):
             result = requests.get('https://pokeapi.co/api/v2/pokemon/' + identifier)
+            result.raise_for_status()   
     return pokemon_from_dict(json.loads(result.text))

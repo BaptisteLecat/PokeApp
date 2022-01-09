@@ -1,5 +1,4 @@
 {% extends 'base.html' %} {% block title %} Pokemon {% endblock title %} 
-
 {%block content %}
 
 <div class="d-flex flex-column justify-content-evenly align-item-center">
@@ -7,20 +6,30 @@
     <h1>Liste des pokémons</h1>
   </div>
   <div class="container">
-    <form>
+    <form action="/pokemons" method="get">
       <div class="input-group mb-3">
         <input
+          id="search"
+          name="search"
           type="search"
-          class="form-control"
+          class="form-control btn-outline-dark"
           placeholder="Rechercher un pokemon"
           aria-label="Rechercher un pokemon"
           aria-describedby="button-search"
+          {%
+          if
+          search
+          != ""
+          %}
+          value="{{ search }}"
+          {%
+          else
+          %}
+          {%
+          endif
+          %}
         />
-        <button
-          class="btn btn-outline-primary"
-          type="button"
-          id="button-search"
-        >
+        <button class="btn btn-outline-dark" type="submit" id="button-search">
           Rechercher
         </button>
       </div>
@@ -28,23 +37,29 @@
   </div>
   <div class="container">
     <div class="d-flex flex-row justify-content-sm-evenly align-item-center">
+      {% if previousPageUrl != None %}
       <a href="/pokemons?previous=true"
-        ><button type="button" class="btn btn-primary btn-lg">
-          Précédent
-        </button></a
+        ><button type="button" class="btn btn-dark btn-lg">Précédent</button></a
       >
+      {% else %} <button type="button" class="btn btn-dark btn-lg" disabled>
+        Précédent
+      </button>
+      {% endif %} {% if nextPageUrl != None %}
       <a href="/pokemons?next=true"
-        ><button type="button" class="btn btn-primary btn-lg">
-          Suivant
-        </button></a
+        ><button type="button" class="btn btn-dark btn-lg">Suivant</button></a
       >
+      {% else %}
+      <button type="button" class="btn btn-dark btn-lg" disabled>
+        Suivant
+      </button>
+      {% endif %}
     </div>
   </div>
   <div class="container">
     <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
       {% for pokemon in listPokemon %}
       <div class="col">
-        <div class="card radius-15 bg-primary">
+        <div class="card radius-15 bg-dark">
           <div class="card-body text-center">
             <div class="p-4 radius-15">
               <img

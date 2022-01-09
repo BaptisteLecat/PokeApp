@@ -12,39 +12,46 @@ def index(request):
    content = pokemon_from_dict(json.loads(result.text))
    return HttpResponse(content.name)
 
-
 def list_pokemon(request):
+    listPokemon = []
     next = request.GET.get('next', None)
     previous = request.GET.get('previous', None)
+    search = request.GET.get('search', "")
+    
     previousPageUrl = request.session.get('previousPageUrl', None)
     nextPageUrl = request.session.get('nextPageUrl', None)
-    print(previousPageUrl)
-    if (next == "true"):
-        if(nextPageUrl != None):
-            print(nextPageUrl)
-            pokemonResultListed = fetchPokemonListed(nextPageUrl)
-        else:
-            pokemonResultListed = fetchPokemonListed()
+    
+    if(search != ""):
+        try:
+            listPokemon.append(fetchPokemon(None, search.lower()))
+        except:
+            listPokemon = []
     else:
-        if (previous == "true"):
-            if(previousPageUrl != None):
-                pokemonResultListed = fetchPokemonListed(previousPageUrl)
+        if (next == "true"):
+            if(nextPageUrl != None):
+                print(nextPageUrl)
+                pokemonResultListed = fetchPokemonListed(nextPageUrl)
             else:
                 pokemonResultListed = fetchPokemonListed()
         else:
-            del request.session['previousPageUrl']
-            del request.session['nextPageUrl']
-            pokemonResultListed = fetchPokemonListed()
-    
-    listPokemon = []
-    
-    for pokemonResult in pokemonResultListed.results :
-        listPokemon.append(fetchPokemon(pokemonResult.url))
+            if (previous == "true"):
+                if(previousPageUrl != None):
+                    pokemonResultListed = fetchPokemonListed(previousPageUrl)
+                else:
+                    pokemonResultListed = fetchPokemonListed()
+            else:
+                del request.session['previousPageUrl']
+                del request.session['nextPageUrl']
+                pokemonResultListed = fetchPokemonListed()  
         
-    request.session['previousPageUrl'] = pokemonResultListed.previous
-    request.session['nextPageUrl'] = pokemonResultListed.next
-    
-    print(listPokemon[0].types[0].type.name)
-    context = {'listPokemon': listPokemon}
+        for pokemonResult in pokemonResultListed.results :
+            listPokemon.append(fetchPokemon(pokemonResult.url))
+            
+        request.session['previousPageUrl'] = pokemonResultListed.previous
+        request.session['nextPageUrl'] = pokemonResultListed.next    
+        print(search)
+        print(listPokemon[0].types[0].type.name)
+    context = {'listPokemon': listPokemon, 'search': search, 'previousPageUrl': previousPageUrl, 'nextPageUrl': nextPageUrl}
+        
     return render(request, 'pokemon/index.html', context)
     #return HttpResponse(listPokemon[0].id)
