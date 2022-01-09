@@ -40,8 +40,11 @@ def list_pokemon(request):
     
     for pokemonResult in pokemonResultListed.results :
         listPokemon.append(fetchPokemon(pokemonResult.url))
-    #context = {'year': year, 'article_list': a_list}
-    #return render(request, 'news/year_archive.html', context)
+        
     request.session['previousPageUrl'] = pokemonResultListed.previous
     request.session['nextPageUrl'] = pokemonResultListed.next
-    return HttpResponse(listPokemon[0].id)
+    
+    print(listPokemon[0].types[0].type.name)
+    context = {'listPokemon': listPokemon}
+    return render(request, 'pokemon/index.html', context)
+    #return HttpResponse(listPokemon[0].id)

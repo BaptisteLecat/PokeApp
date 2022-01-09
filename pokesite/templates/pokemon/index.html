@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% block title %} Pokemon {% endblock title %} 
+
+{%block content %}
+
+<div class="d-flex flex-column justify-content-evenly align-item-center">
+  <div class="d-flex flex-row justify-content-sm-evenly align-item-center">
+    <h1>Liste des pokémons</h1>
+  </div>
+  <div class="container">
+    <form>
+      <div class="input-group mb-3">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Rechercher un pokemon"
+          aria-label="Rechercher un pokemon"
+          aria-describedby="button-search"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          id="button-search"
+        >
+          Rechercher
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="container">
+    <div class="d-flex flex-row justify-content-sm-evenly align-item-center">
+      <a href="/pokemons?previous=true"
+        ><button type="button" class="btn btn-primary btn-lg">
+          Précédent
+        </button></a
+      >
+      <a href="/pokemons?next=true"
+        ><button type="button" class="btn btn-primary btn-lg">
+          Suivant
+        </button></a
+      >
+    </div>
+  </div>
+  <div class="container">
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+      {% for pokemon in listPokemon %}
+      <div class="col">
+        <div class="card radius-15 bg-primary">
+          <div class="card-body text-center">
+            <div class="p-4 radius-15">
+              <img
+                src="{{pokemon.sprites.front_default}}"
+                width="110"
+                height="110"
+                class="rounded-circle shadow p-1 bg-white"
+                alt=""
+              />
+              <h5 class="mb-0 mt-5 text-white">{{pokemon.name|title}}</h5>
+              <p class="mb-3 text-white">{{pokemon.types.0.type.name|title}}</p>
+              <div class="list-inline contacts-social mt-3 mb-3">
+                <a href="javascript:;" class="list-inline-item border-0"
+                  ><i class="bx bxl-facebook"></i
+                ></a>
+                <a href="javascript:;" class="list-inline-item border-0"
+                  ><i class="bx bxl-twitter"></i
+                ></a>
+                <a href="javascript:;" class="list-inline-item border-0"
+                  ><i class="bx bxl-linkedin"></i
+                ></a>
+              </div>
+              <div class="d-grid">
+                <a href="/pokemons/{{ pokemon.id }}/"
+                  ><button
+                    class="btn btn-light"
+                    type="button"
+                    id="button-pokemon{{ pokemon.id }}"
+                  >
+                    Fiche Pokemon
+                  </button></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
