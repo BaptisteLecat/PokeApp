@@ -14,6 +14,7 @@
     />
   </head>
   <body>
+    {% load mathfilters %}
     <div class="container">
       <div class="card">
         <div class="card-body">
@@ -59,11 +60,11 @@
                     </tr>
                     <tr>
                       <td>Taille</td>
-                      <td>{{ pokemon.height }}</td>
+                      <td>{{ pokemon.height|div:10 }} mètres</td>
                     </tr>
                     <tr>
                       <td>Poids</td>
-                      <td>{{ pokemon.weight }}</td>
+                      <td>{{ pokemon.weight|div:10 }} kilos</td>
                     </tr>
                     <tr>
                       <td>Type</td>
