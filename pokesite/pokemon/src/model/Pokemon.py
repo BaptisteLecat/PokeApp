@@ -155,6 +155,41 @@ class Move:
         result["version_group_details"] = from_list(lambda x: to_class(
             VersionGroupDetail, x), self.version_group_details)
         return result
+    
+class DreamWorld:
+    front_default: str
+
+    def __init__(self, front_default: str) -> None:
+        self.front_default = front_default
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'DreamWorld':
+        assert isinstance(obj, dict)
+        front_default = from_str(obj.get("front_default"))
+        return DreamWorld(front_default)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["front_default"] = from_str(self.front_default)
+        return result
+
+
+class Other:
+    dream_world: DreamWorld
+
+    def __init__(self, dream_world: DreamWorld) -> None:
+        self.dream_world = dream_world
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Other':
+        assert isinstance(obj, dict)
+        dream_world = DreamWorld.from_dict(obj.get("dream_world"))
+        return Other(dream_world)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["dream_world"] = to_class(DreamWorld, self.dream_world)
+        return result
 
 
 class Sprites:
@@ -162,12 +197,14 @@ class Sprites:
     back_shiny: str
     front_default: str
     front_shiny: str
+    other: Other
 
-    def __init__(self, back_default: str, back_shiny: str, front_default: str, front_shiny: str) -> None:
+    def __init__(self, back_default: str, back_shiny: str, front_default: str, front_shiny: str, other: Other) -> None:
         self.back_default = back_default
         self.back_shiny = back_shiny
         self.front_default = front_default
         self.front_shiny = front_shiny
+        self.other = other
 
     @staticmethod
     def from_dict(obj: Any) -> 'Sprites':
@@ -176,7 +213,8 @@ class Sprites:
         back_shiny = from_str(obj.get("back_shiny"))
         front_default = from_str(obj.get("front_default"))
         front_shiny = from_str(obj.get("front_shiny"))
-        return Sprites(back_default, back_shiny, front_default, front_shiny)
+        other = Other.from_dict(obj.get("other"))
+        return Sprites(back_default, back_shiny, front_default, front_shiny, other)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -184,6 +222,7 @@ class Sprites:
         result["back_shiny"] = from_str(self.back_shiny)
         result["front_default"] = from_str(self.front_default)
         result["front_shiny"] = from_str(self.front_shiny)
+        result["other"] = to_class(Other, self.other)
         return result
 
 
