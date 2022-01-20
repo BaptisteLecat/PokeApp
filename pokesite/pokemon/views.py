@@ -53,8 +53,10 @@ def list_pokemon(request):
                 else:
                     pokemonResultListed = fetchPokemonListed()
             else:
-                del request.session['previousPageUrl']
-                del request.session['nextPageUrl']
+                if 'previousPageUrl' in request.session:
+                    del request.session['previousPageUrl']
+                if 'nextPageUrl' in request.session:
+                    del request.session['nextPageUrl']
                 pokemonResultListed = fetchPokemonListed()  
         
         for pokemonResult in pokemonResultListed.results :
