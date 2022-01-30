@@ -32,15 +32,27 @@ def list_pokemon(request):
     next = request.GET.get('next', None)
     previous = request.GET.get('previous', None)
     search = request.GET.get('search', "")
+    team = request.GET.get('team', "")
     
     previousPageUrl = request.session.get('previousPageUrl', None)
     nextPageUrl = request.session.get('nextPageUrl', None)
     
-    if(search != ""):
-        try:
-            listPokemon.append(fetchPokemon(None, search.lower()))
-        except:
-            listPokemon = []
+    if search != "" or team != "":
+        if search != "":
+            try:
+                listPokemon.append(fetchPokemon(None, search.lower()))
+            except:
+                listPokemon = []
+        else:
+            try:
+                teamObject = Team.objects.all().filter(name=team)
+                listPokemonTeam = PokemonSelected.objects.filter(team=teamObject)
+                print(listPokemonTeam)
+                for pokemonTeam in listPokemonTeam:
+                    print(pokemonTeam.name)
+                    listPokemon.append(fetchPokemon(pokemonTeam.url, None))
+            except:
+                listPokemon = []
     else:
         if (next == "true"):
             if(nextPageUrl != None):
@@ -68,7 +80,8 @@ def list_pokemon(request):
         request.session['nextPageUrl'] = pokemonResultListed.next    
         print(search)
         print(listPokemon[0].types[0].type.name)
-    context = {'listPokemon': listPokemon, 'search': search, 'previousPageUrl': previousPageUrl, 'nextPageUrl': nextPageUrl}
+    context = {'listPokemon': listPokemon, 'search': search, 'previousPageUrl': previousPageUrl,
+               'nextPageUrl': nextPageUrl, 'teams': Team.objects.all()}
         
     return render(request, 'pokemon/index.html', context)
     #return HttpResponse(listPokemon[0].id)

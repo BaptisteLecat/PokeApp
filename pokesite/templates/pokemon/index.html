@@ -19,7 +19,7 @@
           {%
           if
           search
-          != ""
+          !=""
           %}
           value="{{ search }}"
           {%
@@ -36,12 +36,28 @@
     </form>
   </div>
   <div class="container">
+    <form action="/pokemons" method="get">
+      <div class="input-group mb-3">
+        <select name="team" id="teams-select">
+          <option value="">--Choisissez une équipe--</option>
+          {% for team in teams %}
+          <option value="{{team.name}}">{{team.name}}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn-outline-dark" type="submit" id="button-search">
+          Rechercher
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="container">
     <div class="d-flex flex-row justify-content-sm-evenly align-item-center">
       {% if previousPageUrl != None %}
       <a href="/pokemons?previous=true"
         ><button type="button" class="btn btn-dark btn-lg">Précédent</button></a
       >
-      {% else %} <button type="button" class="btn btn-dark btn-lg" disabled>
+      {% else %}
+      <button type="button" class="btn btn-dark btn-lg" disabled>
         Précédent
       </button>
       {% endif %} {% if nextPageUrl != None %}
