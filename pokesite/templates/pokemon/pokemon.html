@@ -17,68 +17,93 @@
     {% load mathfilters %}
     <div class="d-flex align-items-center justify-content-center">
       <div class="container">
-      <div class="card bg-dark">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-5 col-md-5 col-sm-6">
-              <div class="white-box text-center">
-                <img
-                  src="{{pokemon.sprites.other.dream_world.front_default}}"
-                  width="180"
-                  height="280"
-                  class="img-responsive"
+        <div class="card bg-dark">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-5 col-md-5 col-sm-6">
+                <div class="white-box text-center">
+                  <img
+                    src="{{pokemon.sprites.other.dream_world.front_default}}"
+                    width="180"
+                    height="280"
+                    class="img-responsive"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-6">
+                <h3 class="card-title text-white">{{pokemon.name|title}}</h3>
+                <form id="form-team" action="/pokemons/1" method="post">
+                  <select name="pets" id="pet-select">
+                    <option value="">--Choisissez une équipe--</option>
+                    {% for team in teams %}
+                    <option value="{{team.name}}">{{team.name}}</option>
+                    {% endfor %}
+                  </select>
+                </form>
+                <input
+                  form="form-team"
+                  type="submit"
+                  class="btn btn-primary btn-rounded text-white"
+                  value="Ajouter au pokedex"
                 />
-              </div>
-            </div>
-            <div class="col-lg-7 col-md-7 col-sm-6">
-              <h3 class="card-title text-white">{{pokemon.name|title}}</h3>
-              <button class="btn btn-primary btn-rounded text-white">
-                Ajouter au pokedex
-              </button>
-              <h3 class="box-title mt-5 text-white">Attaques</h3>
-              <div class="list-group">
-                {% for move in listMoves %}
-                <a
-                  href="#"
-                  class="list-group-item list-group-item-action bg-dark"
-                  aria-current="true"
-                >
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1 text-white">{{ move.name|title }}</h5>
-                    <small class="text-white">puissance : {{ move.power }}</small>
-                  </div>
-                  <p class="mb-1 text-white">{{ move.effect_entries.0.short_effect }}</p>
-                </a>
-                {% endfor %}
-              </div>
-              <h3 class="box-title mt-5 text-white">Informations</h3>
-              <div class="table-responsive">
-                <table class="table table-striped table-product">
-                  <tbody>
-                    <tr>
-                      <td width="390" class="text-white">Experience de base</td>
-                      <td class="text-white">{{ pokemon.base_experience }}</td>
-                    </tr>
-                    <tr>
-                      <td class="text-white">Taille</td>
-                      <td class="text-white">{{ pokemon.height|div:10 }} mètres</td>
-                    </tr>
-                    <tr>
-                      <td class="text-white">Poids</td>
-                      <td class="text-white">{{ pokemon.weight|div:10 }} kilos</td>
-                    </tr>
-                    <tr>
-                      <td class="text-white">Type</td>
-                      <td class="text-white">{{ pokemon.types.0.type.name|title }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <h3 class="box-title mt-5 text-white">Attaques</h3>
+                <div class="list-group">
+                  {% for move in listMoves %}
+                  <a
+                    href="#"
+                    class="list-group-item list-group-item-action bg-dark"
+                    aria-current="true"
+                  >
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1 text-white">{{ move.name|title }}</h5>
+                      <small class="text-white"
+                        >puissance : {{ move.power }}</small
+                      >
+                    </div>
+                    <p class="mb-1 text-white">
+                      {{ move.effect_entries.0.short_effect }}
+                    </p>
+                  </a>
+                  {% endfor %}
+                </div>
+                <h3 class="box-title mt-5 text-white">Informations</h3>
+                <div class="table-responsive">
+                  <table class="table table-striped table-product">
+                    <tbody>
+                      <tr>
+                        <td width="390" class="text-white">
+                          Experience de base
+                        </td>
+                        <td class="text-white">
+                          {{ pokemon.base_experience }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-white">Taille</td>
+                        <td class="text-white">
+                          {{ pokemon.height|div:10 }} mètres
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-white">Poids</td>
+                        <td class="text-white">
+                          {{ pokemon.weight|div:10 }} kilos
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-white">Type</td>
+                        <td class="text-white">
+                          {{ pokemon.types.0.type.name|title }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   </body>
 </html>

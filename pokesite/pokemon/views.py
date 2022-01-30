@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponse
 import requests
 import json
 import sys
+from pokemon.models import *
 from pokemon.src.model.Pokemon import *
 from pokemon.src.model.PokemonListed import *
 from pokemon.src.model.MoveComplete import *
@@ -22,7 +23,8 @@ def pokemon(request, id):
         for index in range(3):
             listMoves.append(fetchMove(pokemon.moves[index].move.url))
     print(listMoves[0].effect_entries[0].short_effect)
-    context = {'pokemon': pokemon, 'listMoves': listMoves}
+    context = {'pokemon': pokemon, 'listMoves': listMoves,
+               'teams': Team.objects.all()}
     return render(request, 'pokemon/pokemon.html', context)
 
 def list_pokemon(request):
