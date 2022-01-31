@@ -291,8 +291,10 @@ class Pokemon:
     sprites: Sprites
     stats: List[Stat]
     types: List[TypeElement]
+    base_url: str
+    team: None
 
-    def __init__(self, id: int, name: str, base_experience: int, height: int, is_default: bool, order: int, weight: int, abilities: List[Ability], forms: List[Species], game_indices: List[GameIndex], location_area_encounters: str, moves: List[Move], species: Species, sprites: Sprites, stats: List[Stat], types: List[TypeElement]) -> None:
+    def __init__(self, id: int, name: str, base_experience: int, height: int, is_default: bool, order: int, weight: int, abilities: List[Ability], forms: List[Species], game_indices: List[GameIndex], location_area_encounters: str, moves: List[Move], species: Species, sprites: Sprites, stats: List[Stat], types: List[TypeElement], team : None) -> None:
         self.id = id
         self.name = name
         self.base_experience = base_experience
@@ -309,6 +311,8 @@ class Pokemon:
         self.sprites = sprites
         self.stats = stats
         self.types = types
+        self.base_url = "https://pokeapi.co/api/v2/pokemon/"
+        self.team = team
 
     @staticmethod
     def from_dict(obj: Any) -> 'Pokemon':
@@ -330,7 +334,7 @@ class Pokemon:
         sprites = Sprites.from_dict(obj.get("sprites"))
         stats = from_list(Stat.from_dict, obj.get("stats"))
         types = from_list(TypeElement.from_dict, obj.get("types"))
-        return Pokemon(id, name, base_experience, height, is_default, order, weight, abilities, forms, game_indices, location_area_encounters, moves, species, sprites, stats, types)
+        return Pokemon(id, name, base_experience, height, is_default, order, weight, abilities, forms, game_indices, location_area_encounters, moves, species, sprites, stats, types, None)
 
     def to_dict(self) -> dict:
         result: dict = {}

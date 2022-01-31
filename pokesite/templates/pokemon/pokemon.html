@@ -32,11 +32,16 @@
               </div>
               <div class="col-lg-7 col-md-7 col-sm-6">
                 <h3 class="card-title text-white">{{pokemon.name|title}}</h3>
-                <form id="form-team" action="/pokemons/1" method="post">
-                  <select name="teams" id="teams-select">
+                <form
+                  id="form-team"
+                  action="/pokemons/{{pokemon.id}}/add-to-team/"
+                  method="post"
+                >
+                  {% csrf_token %}
+                  <select name="teamId" id="teams-select">
                     <option value="">--Choisissez une équipe--</option>
                     {% for team in teams %}
-                    <option value="{{team.name}}">{{team.name}}</option>
+                    <option value="{{team.id}}">{{team.name}}</option>
                     {% endfor %}
                   </select>
                 </form>
