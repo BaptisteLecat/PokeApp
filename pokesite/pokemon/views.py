@@ -42,7 +42,7 @@ def pokemonAddToTeam(request, id):
                 if len(resultPokemonSelected) <= 0:
                     # Le pokemon ne fait pas partie de la Team selectionnée, on l'ajoute.
                     pokemonUrl = pokemon.base_url+ str(pokemon.id)
-                    newPokemonSelected = PokemonSelected(
+                    newPokemonSelected = PokemonSelected(id=pokemon.id,
                         name=pokemon.name, url=pokemonUrl, team=resultTeam[0])
                     newPokemonSelected.save()
                     messages.success(
