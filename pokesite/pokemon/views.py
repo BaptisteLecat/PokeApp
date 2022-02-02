@@ -42,8 +42,9 @@ def pokemonAddToTeam(request, id):
                 if len(resultPokemonSelected) <= 0:
                     # Le pokemon ne fait pas partie de la Team selectionnée, on l'ajoute.
                     pokemonUrl = pokemon.base_url+ str(pokemon.id)
-                    newPokemonSelected = PokemonSelected(id=pokemon.id,
+                    newPokemonSelected = PokemonSelected(
                         name=pokemon.name, url=pokemonUrl, team=resultTeam[0])
+                    newPokemonSelected.id = pokemon.id
                     newPokemonSelected.save()
                     messages.success(
                         request, "Ce pokemon à été ajouté à votre Team!")
@@ -66,12 +67,13 @@ def pokemonAddToTeam(request, id):
 def pokemonRemoveFromTeam(request, id):
     if request.method == 'POST':
         teamId = request.POST.get('teamId', None)
+        print(teamId)
         if teamId != None:
-            pokemon = fetchPokemon(None, id)
             resultTeam = Team.objects.filter(id=teamId)
             if len(resultTeam) > 0:
                 resultPokemonSelected = PokemonSelected.objects.filter(
                     id=id, team=resultTeam[0])
+                print(resultPokemonSelected)
                 if len(resultPokemonSelected) > 0:
                     # Le pokemon fait partie de la Team selectionnée, on le supprime.
                     resultPokemonSelected[0].delete()
