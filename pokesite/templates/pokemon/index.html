@@ -36,21 +36,32 @@
     </form>
   </div>
   <div class="container">
-    <form action="/pokemons" method="get">
-      <div class="input-group mb-3">
-        <select name="team" id="teams-select">
-          <option value="">--Choisissez une équipe--</option>
-          {% for team in teams %} {% if team.id == selectedTeam.id %}
-          <option value="{{team.name}}" selected>{{team.name}}</option>
-          {% else %}
-          <option value="{{team.name}}">{{team.name}}</option>
-          {% endif %} {% endfor %}
-        </select>
-        <button class="btn btn-outline-dark" type="submit" id="button-search">
-          Rechercher
-        </button>
-      </div>
-    </form>
+    <div class="d-flex justify-content-around">
+      <form class="p-3" action="/pokemons" method="get">
+        <div class="input-group mb-3">
+          <select name="team" id="teams-select">
+            <option value="">--Choisissez une équipe--</option>
+            {% for team in teams %} {% if team.id == selectedTeam.id %}
+            <option value="{{team.name}}" selected>{{team.name}}</option>
+            {% else %}
+            <option value="{{team.name}}">{{team.name}}</option>
+            {% endif %} {% endfor %}
+          </select>
+          <button class="btn btn-outline-dark" type="submit" id="button-search">
+            Rechercher
+          </button>
+        </div>
+      </form>
+      <form class="p-3" action="/teams/create-team/" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" id="team-name" name="team-name" required>
+          <button class="btn btn-outline-dark" type="submit" id="button-create">
+            Créer une équipe
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="container">
     <div class="d-flex flex-row justify-content-sm-evenly align-item-center">
@@ -76,14 +87,14 @@
   <div class="container">
     {% if messages %}
     <div class="messages">
-      {% for message in messages %}
-       {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger" role="alert">{{ message }}</div>
-       {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success" role="alert">{{ message }}</div>
-       {% else %}
-        <div class="alert alert-dark" role="alert">{{ message }}</div>
-      {% endif %} {% endfor %}
+      {% for message in messages %} 
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% else %}
+          <div class="alert alert-dark" role="alert">{{ message }}</div>
+        {% endif %} {% endfor %}
     </div>
     {% endif %}
   </div>
@@ -125,15 +136,20 @@
                   </button></a
                 >
                 {% if pokemon.team != None %}
-                <hr>
+                <hr />
                 <h6 class="text-white">Equipe : {{ pokemon.team.name}}</h6>
                 <form
                   id="form-team"
                   action="/pokemons/{{pokemon.id}}/remove-from-team/"
                   method="post"
                 >
-                {% csrf_token %}
-                <input id="teamId" name="teamId" type="hidden" value="{{pokemon.team.id}}">
+                  {% csrf_token %}
+                  <input
+                    id="teamId"
+                    name="teamId"
+                    type="hidden"
+                    value="{{pokemon.team.id}}"
+                  />
                 </form>
                 <input
                   form="form-team"

@@ -8,5 +8,8 @@ urlpatterns = [
     path('pokemons/<str:id>/add-to-team/',
          views.pokemonAddToTeam, name="pokemonAddToTeam"),
     path('pokemons/<str:id>/remove-from-team/',
-         views.pokemonRemoveFromTeam, name="pokemonRemoveFromTeam")
+         views.pokemonRemoveFromTeam, name="pokemonRemoveFromTeam"),
+    path('teams/create-team/',
+         views.createTeam, name="createTeam"),
 ]
+

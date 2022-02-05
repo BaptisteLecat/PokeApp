@@ -13,12 +13,6 @@ from pokemon.src.repository.moveRepository import *
 from django.shortcuts import redirect
 
 
-def index(request):
-    result = requests.get('https://pokeapi.co/api/v2/pokemon/1')
-    content = pokemon_from_dict(json.loads(result.text))
-    return HttpResponse(content.name)
-
-
 def pokemon(request, id):
     pokemon = fetchPokemon(None, id)
     listMoves = []
@@ -28,6 +22,24 @@ def pokemon(request, id):
     context = {'pokemon': pokemon, 'listMoves': listMoves,
                'teams': Team.objects.all()}
     return render(request, 'pokemon/pokemon.html', context)
+
+
+def createTeam(request):
+    if request.method == 'POST':
+        teamName = request.POST.get('team-name', None)
+        if teamName != None:
+            newTeam = Team(name=teamName)
+            newTeam.save()
+            messages.success(
+                request, "Vous avez créer une nouvelle équipe!")
+        else:
+            messages.error(
+                request, "Un nom est nécessaire.")
+    else:
+        messages.error(
+            request, "Méthode HTTP inconnue.")
+
+    return redirect("/")
 
 
 def pokemonAddToTeam(request, id):
