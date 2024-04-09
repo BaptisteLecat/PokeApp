@@ -44,14 +44,14 @@ En indiquant le nom du pokemon souhaité il est possible d'accéder à sa fiche 
 
 Sur la page présentant la liste des pokémons, il est possible d'enregistrer une nouvelle équipe en renseignant un nom.
 
-![img2.png](img_2.png)
+![img2.png](img2.png)
 
 ### Affichage des pokémons d'une équipe
 
 Sur cette même page il est possible de sélectionner une équipe pour afficher les fiches des différents pokémons membre de cette équipe.
 J'utilise l'URL enregistré dans l'entité pokemonSelected pour pouvoir charger les données depuis l'API.
 
-![img3.png](img_3.png)
+![img3.png](img3.png)
 
 ### Suppression d'un pokémons d'une équipe
 
@@ -66,7 +66,7 @@ J'ai utilisé la librairie MATHFILTERS pour permettre de convertir les données 
 Les informations concernant les attaques du pokémons sont chargées en bouclant sur la liste d'url renvoyée par l'API :
 "https://pokeapi.co/api/v2/ability/150/"
 
-![img4.png](img_4.png)
+![img4.png](img4.png)
 
 ### Ajout d'un pokemon à une équipe
 
